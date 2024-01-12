@@ -1,6 +1,6 @@
 'use client';
-import { COLORS, WEIGHTS } from '@/constants';
 import { createGlobalStyle } from 'styled-components';
+import { COLORS, WEIGHTS, } from './constants';
 
 
 const GlobalStyles = createGlobalStyle`
@@ -53,6 +53,7 @@ html {
   --color-white: ${COLORS.white};
   --color-gray: ${COLORS.gray};
   --color-black: ${COLORS.black};
+  
   --font-weight-regular: ${WEIGHTS.regular};
   --font-weight-bold: ${WEIGHTS.bold};
   --font-family: Inter, Arial, sans-serif;
