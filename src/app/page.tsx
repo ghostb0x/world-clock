@@ -4,7 +4,7 @@ import TimeDisplay from '@/components/TimeDisplay'
 export default function Home() {
   return (
     <TimeDisplay>
-      8:08
+      23:14
     </TimeDisplay>
   )
 }

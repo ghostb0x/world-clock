@@ -56,7 +56,7 @@ html {
   
   --font-weight-regular: ${WEIGHTS.regular};
   --font-weight-bold: ${WEIGHTS.bold};
-  --font-family: Inter, Arial, sans-serif;
+  --font-family: '__Inter_e66fe9', '__Inter_Fallback_e66fe9', Arial, sans-serif;
 
 
 
