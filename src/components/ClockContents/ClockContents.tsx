@@ -2,31 +2,53 @@
 import * as React from 'react';
 import TimeDisplay from '../TimeDisplay';
 
-interface ClockProps{
+interface ClockProps {
   ip_address: string;
 }
 
-function ClockContents({ip_address}: ClockProps) {
+interface ApiData {
+  abbreviation: string;
+  client_ip: string;
+  datetime: string;
+  day_of_week: number;
+  day_of_year: number;
+  dst: boolean;
+  dst_from: string;
+  dst_offset: number;
+  dst_until: string;
+  raw_offset: number;
+  timezone: string;
+  unixtime: number;
+  utc_datetime: string;
+  utc_offset: string;
+  week_number: number;
+}
 
+function ClockContents({ ip_address }: ClockProps) {
   const FALLBACK_IP_ADDRESS = '157.97.134.115';
-
 
   const [ipAddress, setIpAddress] = React.useState(
     FALLBACK_IP_ADDRESS
   );
-  const [time, setTime] = React.useState('');
-  const [timezone, setTimezone] = React.useState('')
+  const [responseData, setResponseData] = React.useState<ApiData | null>(null);
+  const [timezone, setTimezone] = React.useState('');
+  const [tzAbbreviation, setTzAbbreviation] = React.useState('')
+  const [startTime, setStartTime] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     async function fetchTime() {
       try {
         const response = await fetch(
-          `http://worldtimeapi.org/api/ip/${ipAddress}.txt`
+          `http://worldtimeapi.org/api/ip/${ipAddress}`
         );
         if (response.ok) {
-          const text = await response.text();
-          setTime(text);
+          const data = await response.json();
+          console.log(data)
+          setResponseData(data);
+          setStartTime(data.datetime)
+          setTzAbbreviation(data.abbreviation)
+          setTimezone(data.timezone)
         } else {
           throw new Error('Failed to fetch time');
         }
@@ -38,23 +60,23 @@ function ClockContents({ip_address}: ClockProps) {
     }
 
     if (ipAddress) {
+      console.log('fetching time');
       fetchTime();
     }
-    if (time) {
-      console.log(time)
-    }
-
   }, [ipAddress]);
 
-  
+  React.useEffect(() => {
+    // if time is not set, 
+  }, [])
 
   return isLoading ? (
     <p>Loading...</p>
   ) : (
     <>
       <TimeDisplay
-        timezone="BST"
-        time={'23:14'}
+        tzAbbreviation={tzAbbreviation}
+        timezone={timezone}
+        // startTime={startTime}
       />
       <p>IP {ip_address}</p>
     </>

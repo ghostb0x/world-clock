@@ -2,13 +2,22 @@
 import { QUERIES } from '@/styles/constants';
 import * as React from 'react';
 import styled from 'styled-components';
+import { formatInTimeZone } from 'date-fns-tz'
+
 
 interface Props {
-  time: string;
+  tzAbbreviation: string;
   timezone: string;
 }
 
-function TimeDisplay({ time, timezone }: Props) {
+function TimeDisplay({ tzAbbreviation, timezone }: Props) {
+
+  // const timestamp = new Date(startTime).getTime()
+  const [time, setTime] = React.useState(formatInTimeZone(Date.now(), timezone, 'HH:mm'))
+  
+
+
+
   return (
     <Row>
       <H1>{time}</H1>
