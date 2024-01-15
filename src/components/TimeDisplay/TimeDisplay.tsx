@@ -4,14 +4,15 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  children: React.ReactNode;
+  time: string;
+  timezone: string;
 }
 
-function TimeDisplay({ children }: Props) {
+function TimeDisplay({ time, timezone }: Props) {
   return (
     <Row>
-      <H1>{children}</H1>
-      <Timezone>BST</Timezone>
+      <H1>{time}</H1>
+      <Timezone>{timezone}</Timezone>
     </Row>
   );
 }
