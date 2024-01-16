@@ -36,15 +36,34 @@ function TimeDisplay({ timezone, location }: Props) {
 
   const locationText = `${location.city}, ${location.region}, ${location.country}`;
 
+  const displayTime = formatInTimeZone(
+    time,
+    timezone,
+    twentyFourHourFormat
+  );
+
+  const hours = parseInt(displayTime.slice(0, 2));
+
+  let timeOfDay: string;
+  if (hours < 4) {
+    timeOfDay = 'Evening';
+  } else if (hours < 12) {
+    timeOfDay = 'Morning';
+  } else if (hours < 18) {
+    timeOfDay = 'Afternoon';
+  } else if (hours < 24) {
+    timeOfDay = 'Evening';
+  } else {
+    timeOfDay = 'Day';
+  }
+
   return (
     <Wrapper>
       <Row>
-        <H4>Good Evening, It&apos;s Currently</H4>
+        <H4>Good {timeOfDay}, It&apos;s Currently</H4>
       </Row>
       <Row>
-        <H1>
-          {formatInTimeZone(time, timezone, twentyFourHourFormat)}
-        </H1>
+        <H1>{displayTime}</H1>
         <Timezone>{formatInTimeZone(time, timezone, 'zzz')}</Timezone>
       </Row>
       <Row>
