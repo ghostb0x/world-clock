@@ -3,6 +3,7 @@ import { QUERIES } from '@/styles/constants';
 import * as React from 'react';
 import styled from 'styled-components';
 import { formatInTimeZone } from 'date-fns-tz';
+import TimeIcon from '../TimeIcon';
 
 interface Props {
   timezone: string;
@@ -34,7 +35,10 @@ function TimeDisplay({ timezone, location }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const locationText = `${location.city}, ${location.region}, ${location.country}`;
+  const locationText =
+    location.region === location.city
+      ? `${location.city}, ${location.country}`
+      : `${location.city}, ${location.region}, ${location.country}`;
 
   const displayTime = formatInTimeZone(
     time,
@@ -59,9 +63,10 @@ function TimeDisplay({ timezone, location }: Props) {
 
   return (
     <Wrapper>
-      <Row>
+      <Row1>
+        <TimeIcon timeOfDay={timeOfDay} />
         <H4>Good {timeOfDay}, It&apos;s Currently</H4>
-      </Row>
+      </Row1>
       <Row>
         <H1>{displayTime}</H1>
         <Timezone>{formatInTimeZone(time, timezone, 'zzz')}</Timezone>
@@ -77,6 +82,13 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: start;
+  background-color: black;
+`;
+const Row1 = styled.div`
+  align-items: start;
+  display: flex;
+  flex-wrap: nowrap;
+  column-gap: 16px;
 `;
 
 const Row = styled.div`
@@ -92,8 +104,9 @@ const Row = styled.div`
 
 const H4 = styled.h4`
   font: var(--font-h4-mobile);
-  letter-spacing: 0.15rem;
+  letter-spacing: 0.2rem;
   text-transform: uppercase;
+  color: var(--color-white);
 
   @media ${QUERIES.tabletAndUp} {
     font: var(--font-h4-tablet);
@@ -106,6 +119,7 @@ const H4 = styled.h4`
 
 const H1 = styled.h1`
   font: var(--font-h1-mobile);
+  color: var(--color-white);
 
   @media ${QUERIES.tabletAndUp} {
     font: var(--font-h1-tablet);
@@ -119,6 +133,7 @@ const H1 = styled.h1`
 const Timezone = styled.p`
   text-transform: uppercase;
   font: normal 300 0.9375rem/1.75rem var(--font-family);
+  color: var(--color-white);
 
   @media ${QUERIES.tabletAndUp} {
     font: normal 300 2rem/1.75rem var(--font-family);
@@ -134,6 +149,7 @@ const H3 = styled.h3`
   font: var(--font-h3-mobile);
   letter-spacing: 0.15rem;
   text-transform: uppercase;
+  color: var(--color-white);
 
   @media ${QUERIES.tabletAndUp} {
     font: var(--font-h3-tablet);

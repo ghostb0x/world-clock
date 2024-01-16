@@ -7,7 +7,9 @@ interface ClockProps {
 }
 
 function ClockContents({ ip_address }: ClockProps) {
-  const FALLBACK_IP_ADDRESS = '157.97.134.115';
+  let FALLBACK_IP_ADDRESS = '157.97.134.115';
+
+  FALLBACK_IP_ADDRESS = '2a00:7145::180d:b3da';
 
   const [ipAddress, setIpAddress] = React.useState(
     FALLBACK_IP_ADDRESS
