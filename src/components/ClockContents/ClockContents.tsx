@@ -10,7 +10,7 @@ interface ClockProps {
 function ClockContents({ ip_address }: ClockProps) {
   let FALLBACK_IP_ADDRESS = '157.97.134.115';
 
-  console.log(ip_address)
+  console.log(ip_address);
 
   // bulgaria
   FALLBACK_IP_ADDRESS = '2a00:7145::180d:b3da';
@@ -26,37 +26,40 @@ function ClockContents({ ip_address }: ClockProps) {
   const [region, setRegion] = React.useState('');
   const [country, setCountry] = React.useState('');
   const [timezone, setTimezone] = React.useState('');
-  const [tzAbbreviation, setTzAbbreviation] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
 
-  async function fetchTime() {
-    try {
-      const response = await fetch(
-        `http://ip-api.com/json/${ipAddress}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setCity(data.city);
-        setRegion(data.regionName);
-        setCountry(data.country);
-        setTimezone(data.timezone);
-      } else {
-        throw new Error('Failed to fetch location data');
+  const fetchTime = React.useCallback(
+    async function fetchTime() {
+      try {
+        const response = await fetch(
+          `http://ip-api.com/json/${ipAddress}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setCity(data.city);
+          setRegion(data.regionName);
+          setCountry(data.country);
+          setTimezone(data.timezone);
+        } else {
+          throw new Error('Failed to fetch location data');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+    },
+
+    [ipAddress]
+  );
 
   React.useEffect(() => {
     if (ipAddress) {
       console.log('fetching time');
       fetchTime();
     }
-  }, [ipAddress]);
+  }, [ipAddress, fetchTime]);
 
   return isLoading ? (
     <p>Loading...</p>
