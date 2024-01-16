@@ -79,11 +79,17 @@ function TimeDisplay({ timezone, location }: Props) {
 }
 
 const Wrapper = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: start;
-  background-color: black;
+  width: max-content;
+
+  margin-left: 168px;
+  padding-top: 50vh;
+
 `;
+
 const Row1 = styled.div`
   align-items: start;
   display: flex;

@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import TimeDisplay from '../TimeDisplay';
+import BackgroundImage from '../BackgroundImage';
 
 interface ClockProps {
   ip_address: string;
@@ -9,7 +10,8 @@ interface ClockProps {
 function ClockContents({ ip_address }: ClockProps) {
   let FALLBACK_IP_ADDRESS = '157.97.134.115';
 
-  FALLBACK_IP_ADDRESS = '2a00:7145::180d:b3da';
+  // bulgaria
+  // FALLBACK_IP_ADDRESS = '2a00:7145::180d:b3da';
 
   const [ipAddress, setIpAddress] = React.useState(
     FALLBACK_IP_ADDRESS
@@ -54,13 +56,13 @@ function ClockContents({ ip_address }: ClockProps) {
   return isLoading ? (
     <p>Loading...</p>
   ) : (
-    <>
+    <BackgroundImage timezone={timezone}>
       <TimeDisplay
         timezone={timezone}
         location={{ city, region, country }}
       />
       <p>IP {ip_address}</p>
-    </>
+    </BackgroundImage>
   );
 }
 export default ClockContents;
