@@ -9,7 +9,6 @@ export default function Home() {
 
   const ip_address = GetIP();
 
-  let api_response;
 
   return(
     <ClockContents ip_address={ip_address} />
