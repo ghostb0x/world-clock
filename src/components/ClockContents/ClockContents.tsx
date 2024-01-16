@@ -10,12 +10,17 @@ interface ClockProps {
 function ClockContents({ ip_address }: ClockProps) {
   let FALLBACK_IP_ADDRESS = '157.97.134.115';
 
-  // bulgaria
-  // FALLBACK_IP_ADDRESS = '2a00:7145::180d:b3da';
+  console.log(ip_address)
 
-  const [ipAddress, setIpAddress] = React.useState(
-    FALLBACK_IP_ADDRESS
-  );
+  // bulgaria
+  FALLBACK_IP_ADDRESS = '2a00:7145::180d:b3da';
+
+  const [ipAddress, setIpAddress] = React.useState(() => {
+    if (ip_address) {
+      return ip_address;
+    }
+    return FALLBACK_IP_ADDRESS;
+  });
 
   const [city, setCity] = React.useState('');
   const [region, setRegion] = React.useState('');
@@ -61,7 +66,6 @@ function ClockContents({ ip_address }: ClockProps) {
         timezone={timezone}
         location={{ city, region, country }}
       />
-      <p>IP {ip_address}</p>
     </BackgroundImage>
   );
 }

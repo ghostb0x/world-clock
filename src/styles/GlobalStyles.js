@@ -74,7 +74,7 @@ html {
   --font-h2-mobile: normal var(--font-weight-bold) 1.25rem/normal var(--font-family);
 
   /* h3 used in "in {location}" text */
-  --font-h3: normal var(--font-weight-bold) 1.5rem/1.75rem var(--font-family);
+  --font-h3-desktop: normal var(--font-weight-bold) 1.5rem/1.75rem var(--font-family);
   --font-h3-tablet: normal var(--font-weight-bold) 1.125rem/1.75rem var(--font-family);
   --font-h3-mobile: normal var(--font-weight-bold) 0.9375rem/1.75rem var(--font-family);
 

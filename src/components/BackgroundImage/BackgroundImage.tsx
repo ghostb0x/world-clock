@@ -73,7 +73,10 @@ const BGImage = styled(Image)`
   position: absolute;
   top: 0;
   left: 0;
-  filter: brightness(80%)
+  width: 100vw; 
+  height: 100vh; 
+  object-fit: cover;
+  filter: brightness(70%);
 `
 
 export default BackgroundImage;

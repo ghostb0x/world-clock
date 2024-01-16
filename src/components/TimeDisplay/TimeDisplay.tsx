@@ -83,28 +83,25 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: start;
-  width: max-content;
 
-  margin-left: 168px;
   padding-top: 50vh;
 
+  margin-left: clamp(1.1rem, 7.1vw + 0.25rem, 10rem);
 `;
 
 const Row1 = styled.div`
   align-items: start;
   display: flex;
-  flex-wrap: nowrap;
   column-gap: 16px;
 `;
 
 const Row = styled.div`
+  position: relative;
   display: flex;
-  flex-wrap: nowrap;
   align-items: baseline;
-  gap: 54.7px 10px;
-
+  flex-wrap: wrap;
   @media ${QUERIES.tabletAndUp} {
-    gap: 15px;
+    gap: 15px 10px;
   }
 `;
 
@@ -113,6 +110,7 @@ const H4 = styled.h4`
   letter-spacing: 0.2rem;
   text-transform: uppercase;
   color: var(--color-white);
+  overflow-wrap: normal;
 
   @media ${QUERIES.tabletAndUp} {
     font: var(--font-h4-tablet);
@@ -126,6 +124,7 @@ const H4 = styled.h4`
 const H1 = styled.h1`
   font: var(--font-h1-mobile);
   color: var(--color-white);
+  margin-right: 10px;
 
   @media ${QUERIES.tabletAndUp} {
     font: var(--font-h1-tablet);
