@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { formatInTimeZone } from 'date-fns-tz';
 
 interface Props {
-  tzAbbreviation: string;
   timezone: string;
   location: {
     city: string;
@@ -14,20 +13,16 @@ interface Props {
   };
 }
 
-function TimeDisplay({ tzAbbreviation, timezone, location }: Props) {
+function TimeDisplay({ timezone, location }: Props) {
   const twentyFourHourFormat = 'HH:mm';
   const twelveHourFormat = 'hh:mm bbbb';
 
   // const timestamp = new Date(startTime).getTime()
-  const [time, setTime] = React.useState(
-    formatInTimeZone(Date.now(), timezone, twentyFourHourFormat)
-  );
+  const [time, setTime] = React.useState(Date.now());
 
   React.useEffect(() => {
     const intervalId = window.setInterval(() => {
-      setTime(
-        formatInTimeZone(Date.now(), timezone, twentyFourHourFormat)
-      );
+      setTime(Date.now());
     }, 10 * 1000);
 
     return () => {
@@ -35,7 +30,7 @@ function TimeDisplay({ tzAbbreviation, timezone, location }: Props) {
     };
 
     // NOTE: Intentionally running effect only on component mount
-    // which occurs every 1 second by design
+    // which occurs every 10 seconds by design
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -47,8 +42,10 @@ function TimeDisplay({ tzAbbreviation, timezone, location }: Props) {
         <H4>Good Evening, It&apos;s Currently</H4>
       </Row>
       <Row>
-        <H1>{time}</H1>
-        <Timezone>{tzAbbreviation}</Timezone>
+        <H1>
+          {formatInTimeZone(time, timezone, twentyFourHourFormat)}
+        </H1>
+        <Timezone>{formatInTimeZone(time, timezone, 'zzz')}</Timezone>
       </Row>
       <Row>
         <H3>In {locationText}</H3>
