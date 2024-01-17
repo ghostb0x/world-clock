@@ -1,13 +1,14 @@
 import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
+
 export async function GET(request: NextRequest) {
   const source_url = `http://ip-api.com/json/`;
 
   const params = request.nextUrl.searchParams;
   const getIp = params.get('ip')
 
-  const ip = request.ip;
+  const ip = request.headers.get('X-Forwarded-For');
   console.log(`from get route - current ip is ${ip}`);
 
   // bulgaria
