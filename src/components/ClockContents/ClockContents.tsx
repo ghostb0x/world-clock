@@ -8,19 +8,8 @@ interface ClockProps {
 }
 
 function ClockContents({ ip_address }: ClockProps) {
-  let FALLBACK_IP_ADDRESS = '157.97.134.115';
 
-  console.log(ip_address);
-
-  // bulgaria
-  FALLBACK_IP_ADDRESS = '2a00:7145::180d:b3da';
-
-  const [ipAddress, setIpAddress] = React.useState(() => {
-    if (ip_address) {
-      return ip_address;
-    }
-    return FALLBACK_IP_ADDRESS;
-  });
+  console.log(`GetIP address = ${ip_address}`);
 
   const [city, setCity] = React.useState('');
   const [region, setRegion] = React.useState('');
@@ -31,7 +20,7 @@ function ClockContents({ ip_address }: ClockProps) {
   const fetchTime = React.useCallback(
     async function fetchTime() {
       try {
-        const response = await fetch(`api/location`);
+        const response = await fetch(`api/location?ip=${ip_address}`);
         if (response.ok) {
           const data = await response.json();
           console.log(data);
@@ -49,15 +38,15 @@ function ClockContents({ ip_address }: ClockProps) {
       }
     },
 
-    [ipAddress]
+    [ip_address]
   );
 
   React.useEffect(() => {
-    if (ipAddress) {
+    if (ip_address) {
       console.log('fetching time');
       fetchTime();
     }
-  }, [ipAddress, fetchTime]);
+  }, [ip_address, fetchTime]);
 
   return isLoading ? (
     <p>Loading...</p>
