@@ -5,6 +5,7 @@ export async function GET(request: NextRequest) {
   const source_url = `http://ip-api.com/json/`;
 
   const params = request.nextUrl.searchParams;
+  const getIp = params.get('ip')
 
   const ip = request.ip;
   console.log(`from get route - current ip is ${ip}`);
@@ -17,7 +18,7 @@ export async function GET(request: NextRequest) {
     get_url = source_url + `/${ip}`;
     console.log(`fetching with direct ip: ${get_url}`);
   } else if (params) {
-    get_url = source_url + `/${params}`;
+    get_url = source_url + `/${getIp}`;
     console.log(`fetching with params ip: ${get_url}`);
   } else {
     get_url = source_url + `/${FALLBACK_IP_ADDRESS}`;
