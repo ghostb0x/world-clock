@@ -31,9 +31,7 @@ function ClockContents({ ip_address }: ClockProps) {
   const fetchTime = React.useCallback(
     async function fetchTime() {
       try {
-        const response = await fetch(
-          `http://ip-api.com/json/${ipAddress}`
-        );
+        const response = await fetch(`api/location`);
         if (response.ok) {
           const data = await response.json();
           console.log(data);
