@@ -8,7 +8,6 @@ interface ClockProps {
 }
 
 function ClockContents({ ip_address }: ClockProps) {
-
   console.log(`GetIP address = ${ip_address}`);
 
   const [city, setCity] = React.useState('');
@@ -18,16 +17,24 @@ function ClockContents({ ip_address }: ClockProps) {
   const [isLoading, setIsLoading] = React.useState(true);
 
   const fetchTime = React.useCallback(
-    async function fetchTime() {
+    async function fetchTime(query?: string) {
       try {
-        const response = await fetch(`api/location?ip=${ip_address}`);
+        const response = await fetch(`api/location?q=${query}`);
         if (response.ok) {
           const data = await response.json();
           console.log(data);
-          setCity(data.city);
-          setRegion(data.regionName);
-          setCountry(data.country);
-          setTimezone(data.timezone);
+          if (data.location.name) {
+            setCity(data.location.name);
+          }
+          if (data.location.region) {
+            setRegion(data.location.region);
+          }
+          if (data.location.country) {
+            setCountry(data.location.country);
+          }
+          if (data.location.tz_id) {
+            setTimezone(data.location.tz_id);
+          }
         } else {
           throw new Error('Failed to fetch location data');
         }
@@ -43,10 +50,14 @@ function ClockContents({ ip_address }: ClockProps) {
 
   React.useEffect(() => {
     if (ip_address) {
-      console.log('fetching time');
-      fetchTime();
+      console.log(`fetching time for ${ip_address}`);
+      fetchTime(ip_address);
     }
-  }, [ip_address, fetchTime]);
+
+    // NOTE: Intentionally running effect only on component mount
+    // or on fetchTime change (should not happen)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchTime]);
 
   return isLoading ? (
     <p>Loading...</p>

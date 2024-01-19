@@ -7,11 +7,7 @@ import TimeIcon from '../TimeIcon';
 
 interface Props {
   timezone: string;
-  location: {
-    city: string;
-    region: string;
-    country: string;
-  };
+  location: Record<string, string>;
 }
 
 function TimeDisplay({ timezone, location }: Props) {
@@ -35,10 +31,21 @@ function TimeDisplay({ timezone, location }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const locationText =
-    location.region === location.city
-      ? `${location.city}, ${location.country}`
-      : `${location.city}, ${location.region}, ${location.country}`;
+  let locationText = '';
+
+  for (const property in location) {
+    if (!location[property]) {
+      continue;
+    }
+
+    if (property === 'region' && location.region === location.city) {
+      continue;
+    }
+
+    property === 'city'
+      ? (locationText += location[property])
+      : (locationText += `, ${location[property]}`);
+  }
 
   const displayTime = formatInTimeZone(
     time,

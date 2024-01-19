@@ -3,13 +3,16 @@ import { NextResponse } from 'next/server';
 
 
 export async function GET(request: NextRequest) {
-  const source_url = `http://ip-api.com/json/`;
-
   const params = request.nextUrl.searchParams;
-  const getIp = params.get('ip')
+  const getLoc = params.get('q')
 
   const ip = request.headers.get('X-Forwarded-For');
   console.log(`from get route - current ip is ${ip}`);
+
+  
+  const apiKey = process.env.WEATHER_API_KEY;
+  const source_url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&aqi=no&q=`;
+
 
   // bulgaria
   const FALLBACK_IP_ADDRESS = '2a00:7145::180d:b3da';
@@ -19,8 +22,8 @@ export async function GET(request: NextRequest) {
     get_url = source_url + `/${ip}`;
     console.log(`fetching with direct ip: ${get_url}`);
   } else if (params) {
-    get_url = source_url + `/${getIp}`;
-    console.log(`fetching with params ip: ${get_url}`);
+    get_url = source_url + `/${getLoc}`;
+    console.log(`fetching with params location: ${get_url}`);
   } else {
     get_url = source_url + `/${FALLBACK_IP_ADDRESS}`;
     console.log(`fetching with backup ip: ${get_url}`);
