@@ -1,48 +1,13 @@
 import * as React from 'react';
-import { formatInTimeZone } from 'date-fns-tz';
 import Image from 'next/image';
 import styled from 'styled-components';
 
 interface ImageProps {
   children: React.ReactNode;
-  timezone: string;
+  timeOfDay: string;
 }
 
-function BackgroundImage({ children, timezone }: ImageProps) {
-  const [time, setTime] = React.useState(Date.now());
-
-  React.useEffect(() => {
-    // check once per hour to see if time has crossed into evening/morning
-    const intervalId = window.setInterval(() => {
-      setTime(Date.now());
-    }, 60 * 60 * 1000);
-
-    return () => {
-      window.clearInterval(intervalId);
-    };
-
-    // NOTE: Intentionally running effect only on component mount
-    // which occurs every hour by design
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const displayTime = formatInTimeZone(time, timezone, 'HH:mm');
-
-  const hours = parseInt(displayTime.slice(0, 2));
-
-  let timeOfDay: string;
-  if (hours < 4) {
-    timeOfDay = 'Evening';
-  } else if (hours < 12) {
-    timeOfDay = 'Morning';
-  } else if (hours < 18) {
-    timeOfDay = 'Afternoon';
-  } else if (hours < 24) {
-    timeOfDay = 'Evening';
-  } else {
-    timeOfDay = 'Day';
-  }
-
+function BackgroundImage({ children, timeOfDay }: ImageProps) {
   return (
     <Wrapper>
       <BGImage
@@ -73,10 +38,10 @@ const BGImage = styled(Image)`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw; 
-  height: 100vh; 
+  width: 100vw;
+  height: 100vh;
   object-fit: cover;
   filter: brightness(70%);
-`
+`;
 
 export default BackgroundImage;

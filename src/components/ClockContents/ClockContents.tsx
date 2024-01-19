@@ -5,6 +5,8 @@ import BackgroundImage from '../BackgroundImage';
 import MoreButton from '../MoreButton';
 import styled from 'styled-components';
 import { QUERIES } from '@/styles/constants';
+import BottomShelf from '../BottomShelf';
+import useTimeOfDay from '../useTimeOfDay';
 
 interface ClockProps {
   ip_address: string;
@@ -15,10 +17,17 @@ function ClockContents({ ip_address }: ClockProps) {
 
   const [bottomOpen, setBottomOpen] = React.useState(false);
 
+  const nullWeather = {
+    temp_f: 0,
+    feelsLike_f: 0,
+    condition: '',
+  };
+
   const [city, setCity] = React.useState('');
   const [region, setRegion] = React.useState('');
   const [country, setCountry] = React.useState('');
   const [timezone, setTimezone] = React.useState('');
+  const [weather, setWeather] = React.useState(nullWeather);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const fetchTime = React.useCallback(
@@ -39,6 +48,13 @@ function ClockContents({ ip_address }: ClockProps) {
           }
           if (data.location.tz_id) {
             setTimezone(data.location.tz_id);
+          }
+          if (data.current) {
+            setWeather({
+              condition: data.current.condition.text,
+              feelsLike_f: parseFloat(data.current.feelslike_f),
+              temp_f: parseFloat(data.current.temp_f),
+            });
           }
         } else {
           console.log('catch error on if/else');
@@ -66,10 +82,12 @@ function ClockContents({ ip_address }: ClockProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchTime]);
 
+  const timeOfDay = useTimeOfDay(timezone);
+
   return isLoading ? (
     <p>Loading...</p>
   ) : (
-    <BackgroundImage timezone={timezone}>
+    <BackgroundImage timeOfDay={timeOfDay}>
       <TopRow>
         <TimeDisplay
           timezone={timezone}
@@ -80,6 +98,7 @@ function ClockContents({ ip_address }: ClockProps) {
           onClick={() => setBottomOpen(!bottomOpen)}
         />
       </TopRow>
+      {bottomOpen ? <BottomShelf timeOfDay={timeOfDay} weather={weather}/> : null}
     </BackgroundImage>
   );
 }
@@ -87,7 +106,6 @@ function ClockContents({ ip_address }: ClockProps) {
 const TopRow = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 50vh;
   margin-left: clamp(1.1rem, 7.1vw + 0.25rem, 10rem);
   row-gap: 48px;
 
