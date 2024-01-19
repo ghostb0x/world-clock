@@ -19,13 +19,13 @@ export async function GET(request: NextRequest) {
 
   let get_url: string;
   if (ip) {
-    get_url = source_url + `/${ip}`;
+    get_url = source_url + `${ip}`;
     console.log(`fetching with direct ip: ${get_url}`);
   } else if (params) {
-    get_url = source_url + `/${getLoc}`;
+    get_url = source_url + `${getLoc}`;
     console.log(`fetching with params location: ${get_url}`);
   } else {
-    get_url = source_url + `/${FALLBACK_IP_ADDRESS}`;
+    get_url = source_url + `${FALLBACK_IP_ADDRESS}`;
     console.log(`fetching with backup ip: ${get_url}`);
   }
 
