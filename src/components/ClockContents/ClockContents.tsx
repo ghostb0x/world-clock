@@ -2,6 +2,9 @@
 import * as React from 'react';
 import TimeDisplay from '../TimeDisplay';
 import BackgroundImage from '../BackgroundImage';
+import MoreButton from '../MoreButton';
+import styled from 'styled-components';
+import { QUERIES } from '@/styles/constants';
 
 interface ClockProps {
   ip_address: string;
@@ -9,6 +12,8 @@ interface ClockProps {
 
 function ClockContents({ ip_address }: ClockProps) {
   console.log(`GetIP address = ${ip_address}`);
+
+  const [bottomOpen, setBottomOpen] = React.useState(false);
 
   const [city, setCity] = React.useState('');
   const [region, setRegion] = React.useState('');
@@ -36,6 +41,8 @@ function ClockContents({ ip_address }: ClockProps) {
             setTimezone(data.location.tz_id);
           }
         } else {
+          console.log('catch error on if/else');
+
           throw new Error('Failed to fetch location data');
         }
       } catch (error) {
@@ -63,11 +70,37 @@ function ClockContents({ ip_address }: ClockProps) {
     <p>Loading...</p>
   ) : (
     <BackgroundImage timezone={timezone}>
-      <TimeDisplay
-        timezone={timezone}
-        location={{ city, region, country }}
-      />
+      <TopRow>
+        <TimeDisplay
+          timezone={timezone}
+          location={{ city, region, country }}
+        />
+        <MoreButton
+          bottomOpen={bottomOpen}
+          onClick={() => setBottomOpen(!bottomOpen)}
+        />
+      </TopRow>
     </BackgroundImage>
   );
 }
+
+const TopRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-top: 50vh;
+  margin-left: clamp(1.1rem, 7.1vw + 0.25rem, 10rem);
+  row-gap: 48px;
+
+  @media ${QUERIES.tabletAndUp} {
+    row-gap: 80px;
+  }
+
+  @media ${QUERIES.desktopAndUp} {
+    width: 100%;
+    flex-direction: revert;
+    justify-content: space-between;
+    row-gap: revert;
+    align-items: flex-end;
+  }
+`;
 export default ClockContents;

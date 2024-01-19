@@ -91,9 +91,7 @@ const Wrapper = styled.section`
   flex-direction: column;
   align-items: start;
 
-  padding-top: 50vh;
-
-  margin-left: clamp(1.1rem, 7.1vw + 0.25rem, 10rem);
+ 
 `;
 
 const Row1 = styled.div`
@@ -158,6 +156,7 @@ const Timezone = styled.p`
 `;
 
 const H3 = styled.h3`
+  margin-top: 15px;
   font: var(--font-h3-mobile);
   letter-spacing: 0.15rem;
   text-transform: uppercase;
