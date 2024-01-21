@@ -116,7 +116,7 @@ const TopRow = styled.div`
   row-gap: 48px;
   column-gap: 40px;
   margin-bottom: 40px;
-  margin-right: 20px;
+  margin-right: 15px;
   will-change: transform;
   transition: transform 1s ease-in-out;
 
@@ -126,6 +126,8 @@ const TopRow = styled.div`
 
   @media ${QUERIES.tabletAndUp} {
     row-gap: 80px;
+    margin-right: 40px;
+
 
     &.hidden {
       transform: translateY(100%); // Slide down
