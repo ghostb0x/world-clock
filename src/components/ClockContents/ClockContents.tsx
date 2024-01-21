@@ -21,6 +21,7 @@ function ClockContents({ ip_address }: ClockProps) {
     temp_f: 0,
     feelsLike_f: 0,
     condition: '',
+    uv: 0,
   };
 
   const [city, setCity] = React.useState('');
@@ -54,6 +55,7 @@ function ClockContents({ ip_address }: ClockProps) {
               condition: data.current.condition.text,
               feelsLike_f: parseFloat(data.current.feelslike_f),
               temp_f: parseFloat(data.current.temp_f),
+              uv: parseFloat(data.current.uv),
             });
           }
         } else {
@@ -88,7 +90,7 @@ function ClockContents({ ip_address }: ClockProps) {
     <p>Loading...</p>
   ) : (
     <BackgroundImage timeOfDay={timeOfDay}>
-      <TopRow>
+      <TopRow className={bottomOpen ? 'visible' : 'hidden'}>
         <TimeDisplay
           timezone={timezone}
           location={{ city, region, country }}
@@ -113,6 +115,18 @@ const TopRow = styled.div`
   margin-left: clamp(1.1rem, 7.1vw + 0.25rem, 10rem);
   row-gap: 48px;
   margin-bottom: 40px;
+
+  will-change: transform;
+  transition: transform 1s ease-in-out;
+  transform: translateY(100%); // Start offscreen
+
+  &.visible {
+    transform: translateY(0); // Slide in
+  }
+
+  &.hidden {
+    transform: translateY(100%); // Slide out
+  }
 
   @media ${QUERIES.tabletAndUp} {
     row-gap: 80px;

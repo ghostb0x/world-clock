@@ -9,24 +9,29 @@ interface ShelfProps {
     temp_f: number;
     feelsLike_f: number;
     condition: string;
+    uv: number;
   };
 }
 function BottomShelf({ className, timeOfDay, weather }: ShelfProps) {
   const innerContents = (
-    <>
+    <Stats>
       <StatGroup>
         <StatName>Current Weather</StatName>
         <StatValue>{weather.condition}</StatValue>
       </StatGroup>
       <StatGroup>
-        <StatName>Current Temperature (℉)</StatName>
+        <StatName>UV Index</StatName>
+        <StatValue>{weather.uv}</StatValue>
+      </StatGroup>
+      <StatGroup>
+        <StatName>Current Temperature (°F)</StatName>
         <StatValue>{weather.temp_f}°</StatValue>
       </StatGroup>
       <StatGroup>
-        <StatName>Feels Like (℉)</StatName>
+        <StatName>Feels Like (°F)</StatName>
         <StatValue>{weather.feelsLike_f}°</StatValue>
       </StatGroup>
-    </>
+    </Stats>
   );
 
   return (
@@ -58,9 +63,12 @@ const Wrapper = styled.div`
 
 const Overlay = styled.div`
   padding: 48px 26px;
-  display: flex;
-  flex-direction: column;
-  row-gap: 16px;
+  padding-right: clamp(26px, 15vw - 38px, 120px);
+  
+
+  @media ${QUERIES.tabletAndUp} {
+    padding: 120px clamp(1.1rem, 7.1vw + 0.25rem, 10rem);
+  }
 `;
 
 const OverlayNight = styled(Overlay)`
@@ -76,13 +84,25 @@ const OverlayDay = styled(Overlay)`
   backdrop-filter: blur(5px);
 `;
 
-const StatGroup = styled.section`
+const StatGroup = styled.article`
   display: flex;
   justify-content: space-between;
   width: 100%;
 
   @media ${QUERIES.tabletAndUp} {
     flex-direction: column;
+  }
+`;
+
+const Stats = styled.section`
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+
+  @media ${QUERIES.tabletAndUp} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px 80px;
   }
 `;
 
