@@ -121,12 +121,12 @@ const TopRow = styled.div`
   transition: transform 1s ease-in-out;
 
   &.hidden {
-    transform: translateY(80%); // Slide down
+    transform: translateY(70%); // Slide down
   }
 
   @media ${QUERIES.tabletAndUp} {
     row-gap: 80px;
-    
+
     &.hidden {
       transform: translateY(100%); // Slide down
     }

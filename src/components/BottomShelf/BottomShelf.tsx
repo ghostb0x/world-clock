@@ -14,24 +14,34 @@ interface ShelfProps {
 }
 function BottomShelf({ className, timeOfDay, weather }: ShelfProps) {
   const innerContents = (
-    <Stats>
-      <StatGroup>
-        <StatName>Current Weather</StatName>
-        <StatValue>{weather.condition}</StatValue>
-      </StatGroup>
-      <StatGroup>
-        <StatName>UV Index</StatName>
-        <StatValue>{weather.uv}</StatValue>
-      </StatGroup>
-      <StatGroup>
-        <StatName>Current Temperature (°F)</StatName>
-        <StatValue>{weather.temp_f}°</StatValue>
-      </StatGroup>
-      <StatGroup>
-        <StatName>Feels Like (°F)</StatName>
-        <StatValue>{weather.feelsLike_f}°</StatValue>
-      </StatGroup>
-    </Stats>
+    <ContentsWrapper>
+      <Stats>
+        <StatGroup>
+          <StatName>Current Weather</StatName>
+          <StatValue>{weather.condition}</StatValue>
+        </StatGroup>
+        <StatGroup>
+          <StatName>UV Index</StatName>
+          <StatValue>{weather.uv}</StatValue>
+        </StatGroup>
+        <StatGroup>
+          <StatName>Current Temperature (°F)</StatName>
+          <StatValue>{weather.temp_f}°</StatValue>
+        </StatGroup>
+        <StatGroup>
+          <StatName>Feels Like (°F)</StatName>
+          <StatValue>{weather.feelsLike_f}°</StatValue>
+        </StatGroup>
+      </Stats>
+      <LocationInfo>
+        <LocationNote>
+          The displayed location is based on your IP address.
+        </LocationNote>
+        {/* <LocationNote>
+          To change your location, search and select your location here:
+        </LocationNote> */}
+      </LocationInfo>
+    </ContentsWrapper>
   );
 
   return (
@@ -64,7 +74,6 @@ const Wrapper = styled.div`
 const Overlay = styled.div`
   padding: 48px 26px;
   padding-right: clamp(26px, 15vw - 38px, 120px);
-  
 
   @media ${QUERIES.tabletAndUp} {
     padding: 120px clamp(1.1rem, 7.1vw + 0.25rem, 10rem);
@@ -82,6 +91,11 @@ const OverlayDay = styled(Overlay)`
   color: var(--color-black);
   background-color: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(5px);
+`;
+
+const ContentsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const StatGroup = styled.article`
@@ -129,6 +143,22 @@ const StatValue = styled.p`
 
   @media ${QUERIES.desktopAndUp} {
     font: var(--font-h2-desktop);
+  }
+`;
+
+const LocationInfo = styled.div`
+  margin-top: 50px;
+`;
+
+const LocationNote = styled.p`
+  font: var(--font-h6-mobile);
+
+  @media ${QUERIES.tabletAndUp} {
+    font: var(--font-h6-tablet);
+  }
+
+  @media ${QUERIES.desktopAndUp} {
+    font: var(--font-h6-desktop);
   }
 `;
 
