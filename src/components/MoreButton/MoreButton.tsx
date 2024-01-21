@@ -38,7 +38,6 @@ const Wrapper = styled.button`
   color: var(--color-gray);
   letter-spacing: 0.23438rem;
   text-transform: uppercase;
-
   padding-left: 17px;
   display: flex;
   justify-content: start;

@@ -114,11 +114,11 @@ const TopRow = styled.div`
   flex-direction: column;
   margin-left: clamp(1.1rem, 7.1vw + 0.25rem, 10rem);
   row-gap: 48px;
+  column-gap: 40px;
   margin-bottom: 40px;
-
+  margin-right: 40px;
   will-change: transform;
   transition: transform 1s ease-in-out;
-
 
   &.hidden {
     transform: translateY(80%); // Slide down
@@ -126,6 +126,10 @@ const TopRow = styled.div`
 
   @media ${QUERIES.tabletAndUp} {
     row-gap: 80px;
+    
+    &.hidden {
+      transform: translateY(100%); // Slide down
+    }
   }
 
   @media ${QUERIES.desktopAndUp} {
