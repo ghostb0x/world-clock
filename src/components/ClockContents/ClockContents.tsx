@@ -98,7 +98,11 @@ function ClockContents({ ip_address }: ClockProps) {
           onClick={() => setBottomOpen(!bottomOpen)}
         />
       </TopRow>
-      {bottomOpen ? <BottomShelf timeOfDay={timeOfDay} weather={weather}/> : null}
+      <BottomShelf
+        className={bottomOpen ? 'visible' : 'hidden'}
+        timeOfDay={timeOfDay}
+        weather={weather}
+      />
     </BackgroundImage>
   );
 }
@@ -108,6 +112,7 @@ const TopRow = styled.div`
   flex-direction: column;
   margin-left: clamp(1.1rem, 7.1vw + 0.25rem, 10rem);
   row-gap: 48px;
+  margin-bottom: 40px;
 
   @media ${QUERIES.tabletAndUp} {
     row-gap: 80px;
