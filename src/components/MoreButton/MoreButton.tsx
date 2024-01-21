@@ -3,36 +3,25 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { QUERIES } from '@/styles/constants';
 
-function MoreButton({
-  bottomOpen,
-  onClick,
-}: {
+interface ButtonProps {
   bottomOpen: boolean;
   onClick: () => void;
-}) {
+}
+
+function MoreButton({ bottomOpen, onClick }: ButtonProps) {
   return (
     <Wrapper onClick={onClick}>
       {!bottomOpen ? 'More' : 'Less'}{' '}
       <Circle>
-        {!bottomOpen ? (
-          <DownIcon
-            alt="down arrow icon"
-            src="/assets/desktop/icon-arrow-down.svg"
-            width={15}
-            height={10}
-            quality={80}
-            priority={true}
-          />
-        ) : (
-          <UpIcon
-            alt="up arrow icon"
-            src="/assets/desktop/icon-arrow-down.svg"
-            width={15}
-            height={10}
-            quality={80}
-            priority={true}
-          />
-        )}
+        <DownIcon
+          className={bottomOpen.toString()}
+          alt="down arrow icon"
+          src="/assets/desktop/icon-arrow-down.svg"
+          width={15}
+          height={10}
+          quality={80}
+          priority={true}
+        />
       </Circle>
     </Wrapper>
   );
@@ -40,8 +29,8 @@ function MoreButton({
 
 const Wrapper = styled.button`
   position: relative;
-
-  width: 115px;
+  min-width: 115px;
+  max-width: 115px;
   height: 39px;
   border-radius: 1.75rem;
   background-color: var(--color-white);
@@ -58,7 +47,8 @@ const Wrapper = styled.button`
   /* tablet and desktop sizes are identical */
   @media ${QUERIES.tabletAndUp} {
     padding-left: 21px;
-    width: 146px;
+    min-width: 146px;
+    max-width: 146px;
     height: 56px;
     font: var(--font-button-tablet);
   }
@@ -88,10 +78,16 @@ const Circle = styled.div`
   }
 `;
 
-const DownIcon = styled(Image)``;
-
-const UpIcon = styled(Image)`
-  transform: scale(-1, -1);
+const DownIcon = styled(Image)`
+  margin-top: -1px;
+  will-change: transform;
+  transition: transform 1s ease-in-out;
+  &.false {
+    transform: rotate(360deg) translateY(2px);
+  }
+  &.true {
+    transform: rotate(180deg) translateY(-1px);
+  }
 `;
 
 export default MoreButton;

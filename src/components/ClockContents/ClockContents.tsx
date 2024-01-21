@@ -118,14 +118,10 @@ const TopRow = styled.div`
 
   will-change: transform;
   transition: transform 1s ease-in-out;
-  transform: translateY(100%); // Start offscreen
 
-  &.visible {
-    transform: translateY(0); // Slide in
-  }
 
   &.hidden {
-    transform: translateY(100%); // Slide out
+    transform: translateY(80%); // Slide down
   }
 
   @media ${QUERIES.tabletAndUp} {

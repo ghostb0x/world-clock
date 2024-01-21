@@ -53,11 +53,11 @@ const Wrapper = styled.div`
   transform: translateY(100%); // Start offscreen
 
   &.visible {
-    transform: translateY(0); // Slide in
+    transform: translateY(0); // Slide up
   }
 
   &.hidden {
-    transform: translateY(100%); // Slide out
+    transform: translateY(100%); // Slide down
   }
 `;
 
@@ -73,7 +73,7 @@ const Overlay = styled.div`
 
 const OverlayNight = styled(Overlay)`
   color: var(--color-white);
-  background-color: var(--color-black);
+  background-color: rgba(0, 0, 0, 0.75);
   height: 100%;
   backdrop-filter: blur(20px);
 `;
