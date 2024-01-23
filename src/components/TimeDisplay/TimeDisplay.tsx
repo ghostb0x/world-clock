@@ -90,8 +90,6 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: start;
-
- 
 `;
 
 const Row1 = styled.div`
