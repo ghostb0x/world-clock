@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
   } else if (env == 'production') {
     console.log('prod env');
 
-    if (getLoc) {
+    if (getLoc && getLoc !== 'undefined') {
       get_url = source_url + `${getLoc}`;
       console.log(`fetching with params location: ${get_url}`);
     } else if (ip) {

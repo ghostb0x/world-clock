@@ -1,4 +1,3 @@
-// PlaceAutocomplete.tsx
 import React from 'react';
 import Autocomplete from './Autocomplete';
 import GeoApi from 'wft-geodb-js-client/dist/api/GeoApi';

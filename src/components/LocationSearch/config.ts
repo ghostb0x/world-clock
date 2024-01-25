@@ -1,4 +1,3 @@
-// config.ts
 import * as GeoDB from 'wft-geodb-js-client';
 
 GeoDB.ApiClient.instance.basePath = 'http://geodb-free-service.wirefreethought.com/v1';
