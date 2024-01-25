@@ -91,7 +91,8 @@ const OverlayNight = styled(Overlay)`
 
 const OverlayDay = styled(Overlay)`
   color: var(--color-black);
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 0.5);
+
   backdrop-filter: blur(5px);
 `;
 
@@ -126,6 +127,7 @@ const StatName = styled.h3`
   font: var(--font-h6-mobile);
   letter-spacing: 0.1625rem;
   text-transform: uppercase;
+  margin-right: 50px;
 
   @media ${QUERIES.tabletAndUp} {
     font: var(--font-h6-tablet);

@@ -90,9 +90,9 @@ html {
   --font-h5-mobile: normal var(--font-weight-bold) 0.75rem/1.375rem var(--font-family);
 
   /* h6 used in expanded details item names e.g. current timezone */
-  --font-h6-desktop: normal var(--font-weight-regular) 0.9375rem/1.75rem var(--font-family);
-  --font-h6-tablet: normal var(--font-weight-regular) 0.8125rem/1.75rem var(--font-family);
-  --font-h6-mobile: normal var(--font-weight-regular) 0.625rem/1.75rem var(--font-family);
+  --font-h6-desktop: normal var(--font-weight-bold) 0.9375rem/1.75rem var(--font-family);
+  --font-h6-tablet: normal var(--font-weight-bold) 0.8125rem/1.75rem var(--font-family);
+  --font-h6-mobile: normal var(--font-weight-bold) 0.8rem/1.75rem var(--font-family);
 
   
   /* body font used for quote text */

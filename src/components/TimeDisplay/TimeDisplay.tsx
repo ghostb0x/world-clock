@@ -4,6 +4,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { formatInTimeZone } from 'date-fns-tz';
 import TimeIcon from '../TimeIcon';
+import MapIcon from '../MapIcon';
 
 interface Props {
   timezone: string;
@@ -78,9 +79,14 @@ function TimeDisplay({ timezone, location }: Props) {
         <H1>{displayTime}</H1>
         <Timezone>{formatInTimeZone(time, timezone, 'zzz')}</Timezone>
       </Row>
-      <Row>
+      <Row2>
         <H3>In {locationText}</H3>
-      </Row>
+
+        <LocationNote>
+          Change Location
+          <Icon />
+        </LocationNote>
+      </Row2>
     </Wrapper>
   );
 }
@@ -167,6 +173,51 @@ const H3 = styled.h3`
   @media ${QUERIES.desktopAndUp} {
     font: var(--font-h3-desktop);
   }
+`;
+
+const Row2 = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  @media ${QUERIES.tabletAndUp} {
+    gap: 15px 10px;
+  }
+`;
+
+const LocationNote = styled.button`
+  --font-h7-desktop: normal var(--font-weight-regular) 1.2rem/1.75rem var(--font-family);
+  --font-h7-tablet: normal var(--font-weight-regular) 1rem/1.75rem var(--font-family);
+  --font-h7-mobile: normal var(--font-weight-regular) 1rem/1.75rem var(--font-family); 
+  font: var(--font-h7-mobile);
+  color: var(--color-white);
+  margin-top: 10px;
+  margin-left: -15px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 1rem;
+
+
+  &:hover {
+    background-color: rgba(70, 70, 70, 0.7);
+
+    transition: background-color 0.5s ease-in-out;
+  }
+
+  @media ${QUERIES.tabletAndUp} {
+    font: var(--font-h7-tablet);
+  }
+
+  @media ${QUERIES.desktopAndUp} {
+    font: var(--font-h7-desktop);
+  }
+`;
+
+const Icon = styled(MapIcon)`
+  margin-left: 15px;
 `;
 
 export default TimeDisplay;

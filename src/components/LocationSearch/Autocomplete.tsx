@@ -134,7 +134,7 @@ const SuggestionsList = styled.ul<{ width: string }>`
 
 const SuggestionItem = styled('li').withConfig({
   shouldForwardProp: (prop: string) => !['highlighted'].includes(prop),
-})<{ highlighted: boolean }>`
+})<{ highlighted: string }>`
 
   padding: 8px;
   border-bottom: 1px solid #eee;
