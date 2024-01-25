@@ -14,22 +14,28 @@ export async function GET(request: NextRequest) {
   // bulgaria
   const FALLBACK_IP_ADDRESS = '2a00:7145::180d:b3da';
 
-  let get_url: string = source_url + `${FALLBACK_IP_ADDRESS}`; // Default assignment
+  // Default assignment
+  let get_url = source_url + `${FALLBACK_IP_ADDRESS}`;
 
   const env = process.env.NODE_ENV;
   if (env == 'development') {
     console.log('dev env');
-    get_url = source_url + `${FALLBACK_IP_ADDRESS}`;
-    console.log(`fetching with backup ip: ${get_url}`);
+
+    if (getLoc && getLoc !== 'undefined') {
+      get_url = source_url + `${getLoc}`;
+      console.log(`fetching with params location: ${get_url}`);
+    } else {
+      console.log(`fetching with backup ip: ${get_url}`);
+    }
   } else if (env == 'production') {
     console.log('prod env');
 
-    if (ip) {
-      get_url = source_url + `${ip}`;
-      console.log(`fetching with direct ip: ${get_url}`);
-    } else if (params) {
+    if (getLoc) {
       get_url = source_url + `${getLoc}`;
       console.log(`fetching with params location: ${get_url}`);
+    } else if (ip) {
+      get_url = source_url + `${ip}`;
+      console.log(`fetching with direct ip: ${get_url}`);
     } else {
       console.log(`fetching with backup ip: ${get_url}`);
     }

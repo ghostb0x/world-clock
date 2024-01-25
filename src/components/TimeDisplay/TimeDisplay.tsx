@@ -5,15 +5,20 @@ import styled from 'styled-components';
 import { formatInTimeZone } from 'date-fns-tz';
 import TimeIcon from '../TimeIcon';
 import MapIcon from '../MapIcon';
+import GetPlaceDetails from '../LocationSearch/GetPlaceDetails';
 
 interface Props {
   timezone: string;
   location: Record<string, string>;
+  setManualCity: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function TimeDisplay({ timezone, location }: Props) {
+function TimeDisplay({ timezone, location, setManualCity }: Props) {
   const twentyFourHourFormat = 'HH:mm';
   const twelveHourFormat = 'hh:mm bbbb';
+
+  const [showLocationChange, setShowLocationChange] =
+    React.useState(false);
 
   // const timestamp = new Date(startTime).getTime()
   const [time, setTime] = React.useState(Date.now());
@@ -75,18 +80,22 @@ function TimeDisplay({ timezone, location }: Props) {
         <TimeIcon timeOfDay={timeOfDay} />
         <H4>Good {timeOfDay}, It&apos;s Currently</H4>
       </Row1>
-      <Row>
+      <Row2>
         <H1>{displayTime}</H1>
         <Timezone>{formatInTimeZone(time, timezone, 'zzz')}</Timezone>
-      </Row>
-      <Row2>
+      </Row2>
+      <Row3>
         <H3>In {locationText}</H3>
-
-        <LocationNote>
+      </Row3>
+      <Row3>
+        <LocationButton
+          onClick={() => setShowLocationChange(!showLocationChange)}
+        >
           Change Location
           <Icon />
-        </LocationNote>
-      </Row2>
+        </LocationButton>      
+          <ChangeLocationSearch setManualCity={setManualCity} className={showLocationChange ? 'visible' : ''} />
+      </Row3>
     </Wrapper>
   );
 }
@@ -97,17 +106,28 @@ const Wrapper = styled.section`
   flex-direction: column;
   align-items: start;
 `;
-
 const Row1 = styled.div`
   align-items: start;
   display: flex;
   column-gap: 16px;
 `;
-
-const Row = styled.div`
+const Row2 = styled.div`
   position: relative;
   display: flex;
   align-items: baseline;
+  flex-wrap: wrap;
+  @media ${QUERIES.tabletAndUp} {
+    gap: 15px 10px;
+  }
+`;
+
+
+
+const Row3 = styled.div`
+  margin-top: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
   flex-wrap: wrap;
   @media ${QUERIES.tabletAndUp} {
     gap: 15px 10px;
@@ -175,24 +195,15 @@ const H3 = styled.h3`
   }
 `;
 
-const Row2 = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  @media ${QUERIES.tabletAndUp} {
-    gap: 15px 10px;
-  }
-`;
-
-const LocationNote = styled.button`
-  --font-h7-desktop: normal var(--font-weight-regular) 1.2rem/1.75rem var(--font-family);
-  --font-h7-tablet: normal var(--font-weight-regular) 1rem/1.75rem var(--font-family);
-  --font-h7-mobile: normal var(--font-weight-regular) 1rem/1.75rem var(--font-family); 
+const LocationButton = styled.button`
+  --font-h7-desktop: normal var(--font-weight-regular) 1.2rem/1.75rem
+    var(--font-family);
+  --font-h7-tablet: normal var(--font-weight-regular) 1rem/1.75rem
+    var(--font-family);
+  --font-h7-mobile: normal var(--font-weight-regular) 1rem/1.75rem
+    var(--font-family);
   font: var(--font-h7-mobile);
   color: var(--color-white);
-  margin-top: 10px;
   margin-left: -15px;
   height: 40px;
   display: flex;
@@ -200,10 +211,8 @@ const LocationNote = styled.button`
   padding: 10px 15px;
   border-radius: 1rem;
 
-
   &:hover {
     background-color: rgba(70, 70, 70, 0.7);
-
     transition: background-color 0.5s ease-in-out;
   }
 
@@ -218,6 +227,19 @@ const LocationNote = styled.button`
 
 const Icon = styled(MapIcon)`
   margin-left: 15px;
+`;
+
+const ChangeLocationSearch = styled(GetPlaceDetails)`
+
+  margin-left: 16px;
+  width: 0;
+  opacity: 0;
+  
+  &.visible {
+    width: revert;
+    opacity: 1;
+    transition: width 0.5s, opacity 0.5s allow-discrete;
+  }
 `;
 
 export default TimeDisplay;

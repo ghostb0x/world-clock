@@ -1,7 +1,6 @@
 import { QUERIES } from '@/styles/constants';
 import * as React from 'react';
 import styled from 'styled-components';
-import GetPlaceDetails from '../LocationSearch/GetPlaceDetails';
 
 interface ShelfProps {
   className: 'visible' | 'hidden';
@@ -34,15 +33,6 @@ function BottomShelf({ className, timeOfDay, weather }: ShelfProps) {
           <StatValue>{weather.feelsLike_f}°</StatValue>
         </StatGroup>
       </Stats>
-      <LocationInfo>
-        <LocationNote>
-          The displayed location is based on your IP address.
-        </LocationNote>
-        <GetPlaceDetails />
-        {/* <LocationNote>
-          To change your location, search and select your location here:
-        </LocationNote> */}
-      </LocationInfo>
     </ContentsWrapper>
   );
 

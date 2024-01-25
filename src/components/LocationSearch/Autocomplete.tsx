@@ -1,16 +1,15 @@
 // Autocomplete.tsx
 import React from 'react';
 import styled from 'styled-components';
-
-type OptionType = { id: string; name: string };
+import { PlaceType } from '../types/types';
 
 type AutocompleteProps = {
-  options: OptionType[];
+  options: PlaceType[];
   placeholder: string;
   selectedIcon?: string;
   width?: string;
   onInputChange: (value: string) => void;
-  onSelect: (option: OptionType) => void;
+  onSelect: (option: PlaceType) => void;
 };
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
@@ -133,9 +132,9 @@ const SuggestionsList = styled.ul<{ width: string }>`
 `;
 
 const SuggestionItem = styled('li').withConfig({
-  shouldForwardProp: (prop: string) => !['highlighted'].includes(prop),
+  shouldForwardProp: (prop: string) =>
+    !['highlighted'].includes(prop),
 })<{ highlighted: string }>`
-
   padding: 8px;
   border-bottom: 1px solid #eee;
   color: #363636;

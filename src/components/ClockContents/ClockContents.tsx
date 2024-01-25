@@ -8,13 +8,7 @@ import { QUERIES } from '@/styles/constants';
 import BottomShelf from '../BottomShelf';
 import useTimeOfDay from '../useTimeOfDay';
 
-interface ClockProps {
-  ip_address: string;
-}
-
-function ClockContents({ ip_address }: ClockProps) {
-  console.log(`GetIP address = ${ip_address}`);
-
+function ClockContents() {
   const [bottomOpen, setBottomOpen] = React.useState(false);
 
   const nullWeather = {
@@ -59,7 +53,7 @@ function ClockContents({ ip_address }: ClockProps) {
             });
           }
         } else {
-          console.log('catch error on if/else');
+          console.log('catch error on response if/else');
 
           throw new Error('Failed to fetch location data');
         }
@@ -70,19 +64,19 @@ function ClockContents({ ip_address }: ClockProps) {
       }
     },
 
-    [ip_address]
+    []
   );
 
-  React.useEffect(() => {
-    if (ip_address) {
-      console.log(`fetching time for ${ip_address}`);
-      fetchTime(ip_address);
-    }
+  const [manualCity, setManualCity] = React.useState('');
 
-    // NOTE: Intentionally running effect only on component mount
-    // or on fetchTime change (should not happen)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchTime]);
+  React.useEffect(() => {
+    if (manualCity) {
+      console.log(`fetching time for ${manualCity}`);
+      fetchTime(manualCity);
+    } else {
+      fetchTime();
+    }
+  }, [fetchTime, manualCity]);
 
   const timeOfDay = useTimeOfDay(timezone);
 
@@ -94,6 +88,7 @@ function ClockContents({ ip_address }: ClockProps) {
         <TimeDisplay
           timezone={timezone}
           location={{ city, region, country }}
+          setManualCity={setManualCity}
         />
         <MoreButton
           bottomOpen={bottomOpen}
@@ -113,7 +108,7 @@ const TopRow = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: clamp(1.1rem, 7.1vw + 0.25rem, 10rem);
-  row-gap: 48px;
+  row-gap: 30px;
   column-gap: 40px;
   margin-bottom: 40px;
   margin-right: 15px;
@@ -125,9 +120,8 @@ const TopRow = styled.div`
   }
 
   @media ${QUERIES.tabletAndUp} {
-    row-gap: 80px;
+    row-gap: 50px;
     margin-right: 40px;
-
 
     &.hidden {
       transform: translateY(100%); // Slide down
