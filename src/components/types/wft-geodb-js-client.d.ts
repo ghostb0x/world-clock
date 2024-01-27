@@ -1,5 +1,10 @@
-// wft-geodb-js-client.d.ts
 declare module 'wft-geodb-js-client/dist/api/GeoApi' {
-    const GeoApi: any;  // Adjust this if you know the specific structure
+    const GeoApi: any;  
     export default GeoApi;
+}
+
+
+declare module 'wft-geodb-js-client/dist/ApiClient' {
+    const ApiClient: any; 
+    export default ApiClient;
 }

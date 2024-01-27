@@ -1,7 +1,5 @@
 import React from 'react';
 import Autocomplete from './Autocomplete';
-import GeoApi from 'wft-geodb-js-client/dist/api/GeoApi';
-import { GEO_DB } from './config'; // Adjust the import based on your project structure
 import { PlaceType } from '../types/types';
 
 enum PopulatedPlaceType {
@@ -34,9 +32,9 @@ type PlaceAutocompleteProps = {
 const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
   onPlaceSelected,
 }) => {
-  const [currentResults, setCurrentResults] = React.useState<PlaceType[]>([]);
-
-  const geoApiInstance = new GeoApi(GEO_DB.ApiClient.instance);
+  const [currentResults, setCurrentResults] = React.useState<
+    PlaceType[]
+  >([]);
 
   const onNamePrefixChanged = async (prefix: string) => {
     if (prefix.length < 3) {
@@ -45,14 +43,16 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
     }
 
     try {
-      const response = await geoApiInstance.findPlacesUsingGET({
-        namePrefix: prefix,
-        limit: 5,
-        offset: 0,
-        hateoasMode: false,
-        sort: '-population',
-      });
-      const places = response.data.map((place: PlaceFromAPI) => {
+      const response = await fetch(
+        `/api/searchLocation?namePrefix=${encodeURIComponent(prefix)}`
+      );
+      console.log(response)
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data)
+      const places: PlaceType[] = data.data.map((place: PlaceFromAPI) => {
         return {
           id: place.id,
           name: place.regionCode
