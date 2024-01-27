@@ -50,7 +50,6 @@ function BottomShelf({ className, timeOfDay, weather }: ShelfProps) {
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
-  will-change: transform;
   transition: transform 1s ease-in-out;
   transform: translateY(100%); // Start offscreen
 

@@ -123,17 +123,6 @@ const Row2 = styled.div`
 
 
 
-const Row3 = styled.div`
-  margin-top: 10px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  @media ${QUERIES.tabletAndUp} {
-    gap: 15px 10px;
-  }
-`;
-
 const H4 = styled.h4`
   font: var(--font-h4-mobile);
   letter-spacing: 0.2rem;
@@ -195,6 +184,19 @@ const H3 = styled.h3`
   }
 `;
 
+
+
+const Row3 = styled.div`
+  margin-top: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  @media ${QUERIES.tabletAndUp} {
+    gap: 15px 10px;
+  }
+`;
+
 const LocationButton = styled.button`
   --font-h7-desktop: normal var(--font-weight-regular) 1.2rem/1.75rem
     var(--font-family);
@@ -231,14 +233,20 @@ const Icon = styled(MapIcon)`
 
 const ChangeLocationSearch = styled(GetPlaceDetails)`
 
-  margin-left: 16px;
-  width: 0;
+  margin-left: 1rem;
   opacity: 0;
-  
+  transition: opacity 0.5s;
+  z-index: 5;
   &.visible {
-    width: revert;
     opacity: 1;
-    transition: width 0.5s, opacity 0.5s allow-discrete;
+    transition: opacity 0.5s;
+  }
+
+  @media (max-width: 450px) {
+    margin-left: revert;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    
   }
 `;
 

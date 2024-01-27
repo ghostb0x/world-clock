@@ -79,7 +79,6 @@ const Circle = styled.div`
 
 const DownIcon = styled(Image)`
   margin-top: -1px;
-  will-change: transform;
   transition: transform 1s ease-in-out;
   &.false {
     transform: rotate(360deg) translateY(2px);

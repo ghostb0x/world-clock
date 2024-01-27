@@ -31,7 +31,6 @@ function ClockContents() {
         const response = await fetch(`api/location?q=${query}`);
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           if (data.location.name) {
             setCity(data.location.name);
           }
@@ -71,7 +70,6 @@ function ClockContents() {
 
   React.useEffect(() => {
     if (manualCity) {
-      console.log(`fetching time for ${manualCity}`);
       fetchTime(manualCity);
     } else {
       fetchTime();
@@ -112,7 +110,6 @@ const TopRow = styled.div`
   column-gap: 40px;
   margin-bottom: 40px;
   margin-right: 15px;
-  will-change: transform;
   transition: transform 1s ease-in-out;
 
   &.hidden {

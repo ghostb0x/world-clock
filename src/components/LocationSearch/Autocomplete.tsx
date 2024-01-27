@@ -77,7 +77,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
           onBlur={() => setIsOpen(false)}
           onKeyDown={(e) => {
             if (e.key === 'Escape') setIsOpen(false);
-            if (e.key === 'ArrowDown') moveDown();
+            if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              moveDown();
+            }
             if (e.key === 'ArrowUp') moveUp();
             if (e.key === 'Enter') select();
           }}
@@ -88,7 +91,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
           {options.map((option, index) => (
             <SuggestionItem
               key={option.id}
-              highlighted={(index === highlightedPosition).toString()}
+              highlighted={index === highlightedPosition}
               onMouseEnter={() => setHighlightedPosition(index)}
               onMouseDown={select}
             >
@@ -133,12 +136,12 @@ const SuggestionsList = styled.ul<{ width: string }>`
 const SuggestionItem = styled('li').withConfig({
   shouldForwardProp: (prop: string) =>
     !['highlighted'].includes(prop),
-})<{ highlighted: string }>`
+})<{ highlighted: boolean }>`
   padding: 8px;
   border-bottom: 1px solid #eee;
   color: #363636;
   cursor: pointer;
-  background: ${(props) => (props.highlighted ? '#f8f8f8' : 'white')};
+  background: ${(props) => (props.highlighted ? '#dbdbdb' : 'white')};
 `;
 
 export default Autocomplete;

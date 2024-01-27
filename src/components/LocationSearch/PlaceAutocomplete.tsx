@@ -46,12 +46,10 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
       const response = await fetch(
         `/api/searchLocation?namePrefix=${encodeURIComponent(prefix)}`
       );
-      console.log(response)
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
       const data = await response.json();
-      console.log(data)
       const places: PlaceType[] = data.data.map((place: PlaceFromAPI) => {
         return {
           id: place.id,
@@ -71,7 +69,7 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
   return (
     <Autocomplete
       options={currentResults}
-      placeholder="Enter place"
+      placeholder="Enter Location"
       width="200px"
       onInputChange={onNamePrefixChanged}
       onSelect={(selectedPlace) => {
