@@ -15,12 +15,11 @@ interface Props {
 
 function TimeDisplay({ timezone, location, setManualCity }: Props) {
   const twentyFourHourFormat = 'HH:mm';
-  const twelveHourFormat = 'hh:mm bbbb';
+  const twelveHourFormat = 'h:mm';
 
   const [showLocationChange, setShowLocationChange] =
     React.useState(false);
 
-  // const timestamp = new Date(startTime).getTime()
   const [time, setTime] = React.useState(Date.now());
 
   React.useEffect(() => {
@@ -53,37 +52,44 @@ function TimeDisplay({ timezone, location, setManualCity }: Props) {
       : (locationText += `, ${location[property]}`);
   }
 
-  const displayTime = formatInTimeZone(
-    time,
-    timezone,
-    twentyFourHourFormat
-  );
+  
 
-  const hours = parseInt(displayTime.slice(0, 2));
+  const [timeOfDay, setTimeOfDay ] = React.useState('Day')
 
-  let timeOfDay: string;
-  if (hours < 4) {
-    timeOfDay = 'Evening';
-  } else if (hours < 12) {
-    timeOfDay = 'Morning';
-  } else if (hours < 18) {
-    timeOfDay = 'Afternoon';
-  } else if (hours < 24) {
-    timeOfDay = 'Evening';
-  } else {
-    timeOfDay = 'Day';
-  }
+  React.useEffect(() => {
+    const displayTime = formatInTimeZone(
+      time,
+      timezone,
+      twentyFourHourFormat
+    );
+  
+    const hours = parseInt(displayTime.slice(0, 2));
+
+    if (hours < 4) {
+      setTimeOfDay('Evening');
+    } else if (hours < 12) {
+      setTimeOfDay('Morning');
+    } else if (hours < 18) {
+      setTimeOfDay('Afternoon');
+    } else if (hours < 24) {
+      setTimeOfDay('Evening');
+    }
+  }, [time, timezone]);
 
   return (
     <Wrapper>
       <Row1>
         <TimeIcon timeOfDay={timeOfDay} />
-        <H4>Good {timeOfDay}, It&apos;s Currently</H4>
+        <H4>Good {timeOfDay}</H4>
       </Row1>
+      <Row3>
+        <H3>It&apos;s {formatInTimeZone(time, timezone, 'PPPP')}</H3>
+      </Row3>
       <Row2>
-        <H1>{displayTime}</H1>
-        <Timezone>{formatInTimeZone(time, timezone, 'zzz')}</Timezone>
+        <H1>{formatInTimeZone(time, timezone, twelveHourFormat)}</H1>
+        <Timezone>{formatInTimeZone(time, timezone, 'bbb')}</Timezone>
       </Row2>
+
       <Row3>
         <H3>In {locationText}</H3>
       </Row3>
@@ -93,8 +99,11 @@ function TimeDisplay({ timezone, location, setManualCity }: Props) {
         >
           Change Location
           <Icon />
-        </LocationButton>      
-          <ChangeLocationSearch setManualCity={setManualCity} className={showLocationChange ? 'visible' : ''} />
+        </LocationButton>
+        <ChangeLocationSearch
+          setManualCity={setManualCity}
+          className={showLocationChange ? 'visible' : ''}
+        />
       </Row3>
     </Wrapper>
   );
@@ -120,8 +129,6 @@ const Row2 = styled.div`
     gap: 15px 10px;
   }
 `;
-
-
 
 const H4 = styled.h4`
   font: var(--font-h4-mobile);
@@ -184,8 +191,6 @@ const H3 = styled.h3`
   }
 `;
 
-
-
 const Row3 = styled.div`
   margin-top: 10px;
   position: relative;
@@ -232,7 +237,6 @@ const Icon = styled(MapIcon)`
 `;
 
 const ChangeLocationSearch = styled(GetPlaceDetails)`
-
   margin-left: 1rem;
   opacity: 0;
   transition: opacity 0.5s;
@@ -246,7 +250,6 @@ const ChangeLocationSearch = styled(GetPlaceDetails)`
     margin-left: revert;
     margin-right: 1rem;
     margin-top: 1rem;
-    
   }
 `;
 

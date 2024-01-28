@@ -129,9 +129,11 @@ const StatName = styled.h3`
 
 const StatValue = styled.p`
   font: var(--font-h2-mobile);
+  text-align: end;
 
   @media ${QUERIES.tabletAndUp} {
     font: var(--font-h2-tablet);
+    text-align: revert;
   }
 
   @media ${QUERIES.desktopAndUp} {
@@ -139,20 +141,5 @@ const StatValue = styled.p`
   }
 `;
 
-const LocationInfo = styled.div`
-  margin-top: 50px;
-`;
-
-const LocationNote = styled.p`
-  font: var(--font-h6-mobile);
-
-  @media ${QUERIES.tabletAndUp} {
-    font: var(--font-h6-tablet);
-  }
-
-  @media ${QUERIES.desktopAndUp} {
-    font: var(--font-h6-desktop);
-  }
-`;
 
 export default BottomShelf;

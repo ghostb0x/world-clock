@@ -31,6 +31,7 @@ function ClockContents() {
         const response = await fetch(`api/location?q=${query}`);
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           if (data.location.name) {
             setCity(data.location.name);
           }
@@ -43,6 +44,7 @@ function ClockContents() {
           if (data.location.tz_id) {
             setTimezone(data.location.tz_id);
           }
+
           if (data.current) {
             setWeather({
               condition: data.current.condition.text,
