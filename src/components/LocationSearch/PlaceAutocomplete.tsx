@@ -70,7 +70,6 @@ const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({
     <Autocomplete
       options={currentResults}
       placeholder="Enter Location"
-      width="200px"
       onInputChange={onNamePrefixChanged}
       onSelect={(selectedPlace) => {
         onPlaceSelected(selectedPlace);

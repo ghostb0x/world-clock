@@ -6,19 +6,17 @@ type AutocompleteProps = {
   options: PlaceType[];
   placeholder: string;
   selectedIcon?: string;
-  width?: string;
   onInputChange: (value: string) => void;
   onSelect: (option: PlaceType) => void;
 };
 
-const Autocomplete: React.FC<AutocompleteProps> = ({
+function Autocomplete({
   options,
   placeholder,
   selectedIcon,
-  width = 'fit-content',
   onInputChange,
   onSelect,
-}) => {
+}: AutocompleteProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [highlightedPosition, setHighlightedPosition] =
     React.useState(0);
@@ -57,6 +55,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     setIsOpen(false);
     onSelect(selectedOption);
   };
+  
 
   return (
     <AutocompleteWrapper>
@@ -69,7 +68,6 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
       >
         {selectedIcon && <Icon iconUrl={selectedIcon} />}
         <InputField
-          width={width}
           value={keyword}
           className="form_field"
           placeholder={placeholder}
@@ -87,7 +85,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         />
       </div>
       {isOpen && options.length > 0 && (
-        <SuggestionsList width={width}>
+        <SuggestionsList>
           {options.map((option, index) => (
             <SuggestionItem
               key={option.id}
@@ -102,17 +100,17 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
       )}
     </AutocompleteWrapper>
   );
-};
+}
 
 const AutocompleteWrapper = styled.div`
   position: relative;
 `;
 
-const InputField = styled.input<{ width: string }>`
-  width: ${(props) => props.width};
+const InputField = styled.input`
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 16px;
 `;
 
 const Icon = styled.div<{ iconUrl: string }>`
@@ -124,8 +122,7 @@ const Icon = styled.div<{ iconUrl: string }>`
   background-image: url(${(props) => props.iconUrl});
 `;
 
-const SuggestionsList = styled.ul<{ width: string }>`
-  width: ${(props) => props.width};
+const SuggestionsList = styled.ul`
   border: 1px solid #dbdbdb;
   border-radius: 0 0 3px 3px;
   position: absolute;

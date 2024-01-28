@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { formatInTimeZone } from 'date-fns-tz';
 import TimeIcon from '../TimeIcon';
 import MapIcon from '../MapIcon';
-import GetPlaceDetails from '../LocationSearch/GetPlaceDetails';
+import SearchDialog from '../SearchDialog';
 
 interface Props {
   timezone: string;
@@ -52,9 +52,7 @@ function TimeDisplay({ timezone, location, setManualCity }: Props) {
       : (locationText += `, ${location[property]}`);
   }
 
-  
-
-  const [timeOfDay, setTimeOfDay ] = React.useState('Day')
+  const [timeOfDay, setTimeOfDay] = React.useState('Day');
 
   React.useEffect(() => {
     const displayTime = formatInTimeZone(
@@ -62,7 +60,7 @@ function TimeDisplay({ timezone, location, setManualCity }: Props) {
       timezone,
       twentyFourHourFormat
     );
-  
+
     const hours = parseInt(displayTime.slice(0, 2));
 
     if (hours < 4) {
@@ -87,23 +85,24 @@ function TimeDisplay({ timezone, location, setManualCity }: Props) {
       </Row3>
       <Row2>
         <H1>{formatInTimeZone(time, timezone, twelveHourFormat)}</H1>
-        <Timezone>{formatInTimeZone(time, timezone, 'bbb')}</Timezone>
+        <Timezone>{formatInTimeZone(time, timezone, 'aaa')}</Timezone>
       </Row2>
 
       <Row3>
         <H3>In {locationText}</H3>
       </Row3>
       <Row3>
-        <LocationButton
-          onClick={() => setShowLocationChange(!showLocationChange)}
-        >
-          Change Location
-          <Icon />
-        </LocationButton>
-        <ChangeLocationSearch
+        <SearchDialog
           setManualCity={setManualCity}
           className={showLocationChange ? 'visible' : ''}
-        />
+        >
+          <LocationButton
+            onClick={() => setShowLocationChange(!showLocationChange)}
+          >
+            Change Location
+            <Icon />
+          </LocationButton>
+        </SearchDialog>
       </Row3>
     </Wrapper>
   );
@@ -236,21 +235,5 @@ const Icon = styled(MapIcon)`
   margin-left: 15px;
 `;
 
-const ChangeLocationSearch = styled(GetPlaceDetails)`
-  margin-left: 1rem;
-  opacity: 0;
-  transition: opacity 0.5s;
-  z-index: 5;
-  &.visible {
-    opacity: 1;
-    transition: opacity 0.5s;
-  }
-
-  @media (max-width: 450px) {
-    margin-left: revert;
-    margin-right: 1rem;
-    margin-top: 1rem;
-  }
-`;
 
 export default TimeDisplay;
