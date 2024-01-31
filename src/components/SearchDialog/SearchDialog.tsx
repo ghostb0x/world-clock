@@ -16,11 +16,31 @@ function DeleteDialog({
   setManualCity,
 }: IDeleteDialogProps) {
   const [open, setOpen] = React.useState(false);
+  const [isKeyboardVisible, setIsKeyboardVisible] = React.useState(false);
+
 
   function onPlaceSelected(place: PlaceType) {
     setManualCity(place.coordinates);
     setOpen(false);
   }
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (!window.visualViewport) {
+        return;
+      }
+
+      const viewportHeight = window.visualViewport.height;
+      const heightDifference = window.innerHeight - viewportHeight;
+      const keyboardThreshold = 200; // Adjust this value as needed
+
+      setIsKeyboardVisible(heightDifference > keyboardThreshold);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <Dialog.Root
@@ -30,7 +50,7 @@ function DeleteDialog({
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Portal>
         <DialogOverlay />
-        <DialogContent>
+        <DialogContent spellCheck={isKeyboardVisible}>
           <DialogTitle>Where do you want to go?</DialogTitle>
           <ChangeLocationSearch>
             <PlaceAutocomplete onPlaceSelected={onPlaceSelected} />
@@ -86,7 +106,9 @@ const DialogContent = styled(Dialog.Content)`
 
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: ${(props) => 
+    props.spellCheck ? 'translate(-50%, -60%)' : 'translate(-50%, -50%)'};
+  
   width: 90vw;
   max-width: 500px;
   max-height: 400px;
